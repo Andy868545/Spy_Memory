@@ -1,0 +1,167 @@
+*{margin:0px;padding:0px;box-sizing: border-box;}
+.rounded{
+    border-radius: 10px;
+    font-size: 15px;
+}
+h2{
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    padding-top: 5%;
+}
+nav{
+    position: fixed;
+    width: 100%;
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    min-height: 8vh;
+    background-color: darkseagreen;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
+}
+.logo{
+    color:cornsilk ;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 20px;
+}
+.nav-links{
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+}
+.nav-links li{
+    list-style: none;
+}
+
+.nav-links a{
+    color:cornsilk ;
+    text-decoration: none;
+    letter-spacing: 3px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.burger{
+    display:none;
+    cursor: pointer;
+}
+.burger div{
+    width: 25px;
+    height: 3px;
+    background-color: cornsilk;
+    margin: 5px;
+}
+
+@media (max-width: 1024px){
+    .nav-links{
+        width:60%;
+    }
+}
+@media (max-width: 768px){
+    body{
+        overflow-x:hidden;
+    }
+    .nav-links{
+        position: absolute;
+        right: 0px;
+        height:92vh;
+        top:8vh;
+        background-color: darkseagreen;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 30%;
+        transform: translate(100%);
+        transition: transform 0.5s ease-in;
+    }
+    .nav-links li{
+        opacity: 0;
+    }
+    .burger{
+        display: block;
+    }
+}
+.nav-active{
+    transform: translateX(0%);
+}
+
+@keyframes navLinkFade{
+    from{
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+body {
+    background-color: #dfe6e9;
+    height: 100vh;
+    display: flex;
+}
+#entering{
+    padding: 10px;
+}
+.card1 {
+    transform: perspective(750px) translate3d(0px, 0px, -250px) rotateX(27deg) scale(0.9, 0.9);
+    border-radius: 20px;
+    border: 5px solid #e6e6e6;
+    box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
+    transition: 0.4s ease-in-out transform;
+    background-color: cornsilk;
+}
+.card1:hover {
+    transform: translate3d(0px, 0px, -250px) rotatex(0deg);
+    transition:.6s;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+}
+.card1 img{
+    transform: translateY(15px);
+    width:360px;
+    height:150px;
+}
+.memory-game {
+    width: 540px;
+    height: 540px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.memory-card {
+    width: calc(25% - 10px);
+    border-radius: 5px;
+    height: calc(33.333% - 10px);
+    margin: 5px;
+    position: relative;
+    transform: scale(1); /* muss gesetzt werden, damit beim Drücken der Effekt relativ funktioniert */
+    transform-style: preserve-3d; /* Festlegung auf 3d */
+    transition: transform .5s;
+    box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.memory-card:active {
+    transform: scale(0.70); /* beim Clicken wird die Karte realtiv verkleinert*/
+    transition: transform .2s;/* muss gesetzt werden, damit beim Drücken der Effekt relativ funktioniert */
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+.front-face,
+.back-face {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: absolute;
+    border-radius: 5px;
+    background: linear-gradient(rgb(93,94,170),rgb(93,66,103));
+    backface-visibility: hidden; /*sonst sieht man die hintere Seite auch noch wenn s geflippt ist*/
+}
+
+.front-face {
+    transform: rotateY(180deg);
+}

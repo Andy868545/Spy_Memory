@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet"/> <title>NAVIGATION</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body id="body">
+    <nav>
+        <div class="logo">
+            <h4>The Game</h4>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Work</a></li>
+            <li><a href="#">Projects</a></li>
+        </ul>
+        <div class="burger">
+            <div id="line1"></div>
+            <div id="line2"></div>
+            <div id="line3"></div>
+        </div>
+    </nav>
+    <div id="entering">
+    <h2>Number of Cards</h2>
+    <input class="rounded "type="number" min="2" id="Num_Card" step="2" >
+    <input class="rounded" type="submit" id="num_btn" value="choose">
+    <input class="rounded" type="submit" id="reset_btn" value="reset">
+    </div>
+
+    <div class="card1" id="card">
+        <img src="img/agent.png" alt="">
+        <h3>Who is the spy?</h3>
+        <p>Text</p>
+    </div>
+    <section class="memory-game">
+
+    </section>
+    <script src="app.js"></script>
+</body>
+</html>
