@@ -21,12 +21,18 @@ let secondClick = false
 let startedGame = false
 let firstCard;
 let secondCard;
+let time = 30000;
+let cal_time;
+
+
 $("#reset_btn").prop('disabled', true)
 $("#reset_btn").on('click',function(){
     $(".memory-game").empty();
     $(".memory-game").append("<div class='card1' id='card'><img src='img/agent.png\'><h3>Who is the spy?</h3><p>Text</p></div>");
     $("#select_btn").prop('disabled',false);
     cardsList = [];
+    clearInterval(cal_time);
+    time = 30000;
     $("#Num_Card").val("");
     $("#reset_btn").prop('disabled', true)
 })
@@ -45,6 +51,17 @@ $("#select_btn").on('click',function (){
         $(".memory-game").append(shuffled);
         $("#select_btn").prop('disabled',true);
         $("#reset_btn").prop('disabled', false);
+        cal_time = setInterval(function() {
+            time = time - 1000;
+            let seconds = Math.floor((time % (1000 * 60)) / 1000);
+            let minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("timer").innerHTML ="Timer: "+minutes+"m "+seconds+ "s "
+            if (time == 0) {
+                clearInterval(cal_time);
+                lockBoard = true;
+                alert("Time Out!! the bomb exploded")
+            }
+        }, 1000);
         console.log(shuffled)
         console.log($(".memory-card").get())
     }
@@ -154,19 +171,3 @@ function randomSign() {
     return result;
 }
 
-var countDownDate = new Date().getTime()+60000;
-
-var x = setInterval(function() {
-    // Get today's date and time
-    var now = new Date().getTime();
-    console.log(now)
-    // Find the distance between now and the count down date
-    var distance = countDownDate - now;
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    // Output the result in an element with id="demo"
-    console.log( seconds + "s ");
-    // If the count down is over, write some text
-    if (distance ==0) {
-        clearInterval(x);
-    }
-}, 1000);

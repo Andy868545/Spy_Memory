@@ -1,7 +1,7 @@
 *{margin: 0px ;padding: 0px ;box-sizing: border-box;}
 .rounded{
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 19px;
 }
 h2{
     font-family: 'Montserrat', sans-serif;
@@ -110,7 +110,7 @@ body {
     display: flex;
 }
 #entering{
-    padding: 10px;
+    padding: 5%;
 }
 #reset{
     padding: 10px;
