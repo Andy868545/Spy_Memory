@@ -24,7 +24,7 @@ let secondCard;
 $("#reset_btn").prop('disabled', true)
 $("#reset_btn").on('click',function(){
     $(".memory-game").empty();
-    $("#body").append("<div class='card1' id='card'><img src='img/agent.png\'><h3>Who is the spy?</h3><p>Text</p></div>");
+    $(".memory-game").append("<div class='card1' id='card'><img src='img/agent.png\'><h3>Who is the spy?</h3><p>Text</p></div>");
     $("#select_btn").prop('disabled',false);
     cardsList = [];
     $("#Num_Card").val("");
@@ -59,13 +59,13 @@ function createCard(idNr,content){
         "<p class='front-face' style='font-weight: bold'>"+content+"</p><img class='back-face' src='img/agent.png'/></div>";
     cardsList.push(new_card);
 }
-//  <img class="front-face" src="../img/aurelia.svg" alt="Aurelia" />
+
 function flipCard(elem){
     console.log(elem)
     if(lockBoard){return;} //locking the board --> no access
     if(elem === firstCard){return;} //avoid double click problems
     console.log("match: "+elem.getAttribute("match"))
-    if(elem.getAttribute("match")=="false"){
+    if(elem.getAttribute("match") == "false"){
         elem.classList.add('flip')
         if(!secondClick){ //first click
             secondClick = true;
@@ -84,8 +84,8 @@ function match_checking(f_card,s_card){
         console.log(f_card.getAttribute("match"))
         s_card.setAttribute("match","true")
         console.log(s_card.getAttribute("match"))
-        f_card.style.color = "#2eff00"
-        s_card.style.color = "#2eff00"
+        f_card.style.color = "#2eff00";
+        s_card.style.color = "#2eff00";
     }
     else{
         lockBoard = true;
@@ -137,20 +137,36 @@ function randomSign() {
     let result = "";
     switch (signNum) {
         case 0:
-            result = "+";
+            result = " + ";
             break;
         case 1:
-            result = "-";
+            result = " - ";
             break;
         case 2:
-            result = "*";
+            result = " * ";
             break;
         case 3:
-            result = "/";
+            result = " / ";
             break;
         default:
             console.log("");
     }
     return result;
 }
-generateRandomMathProblem();
+
+var countDownDate = new Date().getTime()+60000;
+
+var x = setInterval(function() {
+    // Get today's date and time
+    var now = new Date().getTime();
+    console.log(now)
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    // Output the result in an element with id="demo"
+    console.log( seconds + "s ");
+    // If the count down is over, write some text
+    if (distance ==0) {
+        clearInterval(x);
+    }
+}, 1000);

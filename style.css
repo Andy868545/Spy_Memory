@@ -131,7 +131,7 @@ body {
 .card1 img{
     transform: translateY(15px);
     width:360px;
-    height:150px;
+    height:250px;
 }
 .memory-game {
     width: 540px;
@@ -140,7 +140,6 @@ body {
     display: flex;
     flex-wrap: wrap;
 }
-
 .memory-card {
     width: calc(25% - 10px);
     border-radius: 5px;
