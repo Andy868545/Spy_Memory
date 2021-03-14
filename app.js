@@ -103,6 +103,9 @@ function match_checking(f_card,s_card){
         console.log(s_card.getAttribute("match"))
         f_card.style.color = "#2eff00";
         s_card.style.color = "#2eff00";
+        clearInterval(cal_time);
+        document.getElementById("timer").innerHTML ="Successfully disarmed"
+        document.getElementById("timer").style.backgroundColor ="darkseagreen"
     }
     else{
         lockBoard = true;
