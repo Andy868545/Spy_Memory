@@ -64,7 +64,7 @@ $("#select_btn").on('click',function (){
                 lockBoard = true;
                 alert("Time Out!! the bomb exploded")
             }
-            if(numMatching == cardsList.length/2){
+            if(numMatching === cardsList.length/2){
                 clearInterval(cal_time);
                 document.getElementById("timer").innerHTML ="Timer: "+minutes+"m "+seconds+ "s => Success";
                 document.getElementById("timer").style.color ="darkseagreen";
@@ -179,5 +179,3 @@ function randomSign() {
     }
     return result;
 }
-
-console.log(cardsList)

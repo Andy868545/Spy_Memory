@@ -154,7 +154,7 @@ body {
 }
 
 .memory-card:active {
-    transform: scale(0.70); /* beim Clicken wird die Karte realtiv verkleinert*/
+    transform: scale(0.80); /* beim Clicken wird die Karte realtiv verkleinert*/
     transition: transform .2s;/* muss gesetzt werden, damit beim Drücken der Effekt relativ funktioniert */
 }
 
