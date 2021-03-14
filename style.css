@@ -1,4 +1,4 @@
-*{margin:0px;padding:0px;box-sizing: border-box;}
+*{margin: 0px ;padding: 0px ;box-sizing: border-box;}
 .rounded{
     border-radius: 10px;
     font-size: 15px;
@@ -6,7 +6,13 @@
 h2{
     font-family: 'Montserrat', sans-serif;
     font-family: 'Poppins', sans-serif;
-    padding-top: 5%;
+    margin-top: 15%;
+}
+h3{
+    margin: 10px;
+}
+.introText{
+    margin:10px;
 }
 nav{
     position: fixed;
@@ -29,6 +35,7 @@ nav{
     display: flex;
     justify-content: space-around;
     width: 40%;
+    z-index: -1;
 }
 .nav-links li{
     list-style: none;
@@ -84,6 +91,7 @@ nav{
 }
 .nav-active{
     transform: translateX(0%);
+    z-index: -1;
 }
 
 @keyframes navLinkFade{
@@ -102,6 +110,9 @@ body {
     display: flex;
 }
 #entering{
+    padding: 10px;
+}
+#reset{
     padding: 10px;
 }
 .card1 {
@@ -135,6 +146,7 @@ body {
     border-radius: 5px;
     height: calc(33.333% - 10px);
     margin: 5px;
+    margin-top: 5%;
     position: relative;
     transform: scale(1); /* muss gesetzt werden, damit beim Drücken der Effekt relativ funktioniert */
     transform-style: preserve-3d; /* Festlegung auf 3d */
@@ -161,7 +173,6 @@ body {
     background: linear-gradient(rgb(93,94,170),rgb(93,66,103));
     backface-visibility: hidden; /*sonst sieht man die hintere Seite auch noch wenn s geflippt ist*/
 }
-
 .front-face {
     transform: rotateY(180deg);
 }

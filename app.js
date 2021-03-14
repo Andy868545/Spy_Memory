@@ -15,66 +15,142 @@ const navSlide=()=>{
     });
 }
 navSlide();
-
+let cardsList = []; // List of all created Cards
+let lockBoard = false
+let secondClick = false
+let startedGame = false
+let firstCard;
+let secondCard;
+$("#reset_btn").prop('disabled', true)
 $("#reset_btn").on('click',function(){
     $(".memory-game").empty();
-    $(".memory-game").append(" <div class='card1' id='card'><img src='img/agent.png\'><h3>Who is the spy?</h3><p>Text</p></div>");})
-$("#num_btn").on('click',function (){
-   let num = $("#Num_Card").val();
-    if((num!="")&&(num%2===0)){
+    $("#body").append("<div class='card1' id='card'><img src='img/agent.png\'><h3>Who is the spy?</h3><p>Text</p></div>");
+    $("#select_btn").prop('disabled',false);
+    cardsList = [];
+    $("#Num_Card").val("");
+    $("#reset_btn").prop('disabled', true)
+})
+$("#select_btn").on('click',function (){
+   let inputNum = $("#Num_Card").val();
+    if((inputNum!="")&&(inputNum%2===0)){
         $(".card1").remove();
-        num=($(".memory-game").length-1+num)/2
-       for(let i=1;i<=num;i++){
-           createCard(i);
-           createCard(i);
+        inputNum = inputNum/2
+       for(let i=0;i<inputNum;i++){
+           let mathProblem = generateRandomMathProblem()
+           createCard(i,mathProblem+" = ");
+           createCard(i, Math.round(eval(mathProblem) * 100) / 100);
        }
-       $("#Num_Player").val("");
+        $("#Num_Card").val("");
+        let shuffled = shuffle(cardsList)
+        $(".memory-game").append(shuffled);
+        $("#select_btn").prop('disabled',true);
+        $("#reset_btn").prop('disabled', false);
+        console.log(shuffled)
+        console.log($(".memory-card").get())
     }
     else{
         alert("Empty Input is not valid");
     }
 });
-function createCard(idNr){
+
+function createCard(idNr,content){
     console.log(idNr)
     let new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false'>" +
-        "<p class='front-face'>"+idNr+"</p><img class='back-face' src='img/agent.png'/></div>";
-    $(".memory-game").append(new_card);
+        "<p class='front-face' style='font-weight: bold'>"+content+"</p><img class='back-face' src='img/agent.png'/></div>";
+    cardsList.push(new_card);
 }
-let secondClick = false
-let firstCard;
-let secondCard;
+//  <img class="front-face" src="../img/aurelia.svg" alt="Aurelia" />
 function flipCard(elem){
+    console.log(elem)
+    if(lockBoard){return;} //locking the board --> no access
+    if(elem === firstCard){return;} //avoid double click problems
     console.log("match: "+elem.getAttribute("match"))
     if(elem.getAttribute("match")=="false"){
         elem.classList.add('flip')
         if(!secondClick){ //first click
-            secondClick=true;
-            firstCard=elem;
+            secondClick = true;
+            firstCard = elem;
         }else{
-            secondClick=false; //second click
-            secondCard=elem;
-            //console.log(F_card.id)
-            //console.log(S_card.id)
+            secondClick = false; //second click
+            secondCard = elem;
             match_checking(firstCard, secondCard);
         }
     }
 }
 function match_checking(f_card,s_card){
-    if(f_card.id===s_card.id){
+    if(f_card.id === s_card.id){
+        console.log("Match gefunden");
         f_card.setAttribute("match","true")
         console.log(f_card.getAttribute("match"))
         s_card.setAttribute("match","true")
         console.log(s_card.getAttribute("match"))
+        f_card.style.color = "#2eff00"
+        s_card.style.color = "#2eff00"
     }
     else{
+        lockBoard = true;
+        firstCard = null;
         setTimeout(()=>{
             console.log("Kein Match");
             f_card.classList.remove('flip')
             s_card.classList.remove('flip')
-
+            lockBoard = false;
             console.log(f_card.getAttribute("match"))
-
             console.log(s_card.getAttribute("match"))
         },1000)
     }
 }
+function shuffle(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+    return array;
+}
+
+function getRandomInt(min,max){
+    let result = (Math.round(Math.random()*max)+min)
+    if(result<0){result= "("+result+")"}
+    return (result)
+}
+function generateRandomMathProblem(){
+    let equation = "";
+    let minValue = -20;
+    let maxValue = 100;
+    let num = getRandomInt(0,4); // number of numbers in an equation
+    for(let i = 0; i < num; i++){
+        equation = equation + getRandomInt(minValue,maxValue) + randomSign()
+    }
+    equation = equation+getRandomInt(minValue,maxValue)
+    return equation;
+}
+
+function randomSign() {
+    let signNum = getRandomInt(0, 3);
+    let result = "";
+    switch (signNum) {
+        case 0:
+            result = "+";
+            break;
+        case 1:
+            result = "-";
+            break;
+        case 2:
+            result = "*";
+            break;
+        case 3:
+            result = "/";
+            break;
+        default:
+            console.log("");
+    }
+    return result;
+}
+generateRandomMathProblem();
