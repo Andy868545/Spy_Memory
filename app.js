@@ -23,7 +23,7 @@ let firstCard;
 let secondCard;
 let time = 30000;
 let cal_time;
-
+let numMatching = 0;
 
 $("#reset_btn").prop('disabled', true)
 $("#reset_btn").on('click',function(){
@@ -31,8 +31,11 @@ $("#reset_btn").on('click',function(){
     $(".memory-game").append("<div class='card1' id='card'><img src='img/agent.png\'><h3>Who is the spy?</h3><p>Text</p></div>");
     $("#select_btn").prop('disabled',false);
     cardsList = [];
+    numMatching = 0;
     clearInterval(cal_time);
     time = 30000;
+    document.getElementById("timer").style.color ="#ec5252";
+    document.getElementById("timer").innerHTML ="";
     $("#Num_Card").val("");
     $("#reset_btn").prop('disabled', true)
 })
@@ -60,6 +63,11 @@ $("#select_btn").on('click',function (){
                 clearInterval(cal_time);
                 lockBoard = true;
                 alert("Time Out!! the bomb exploded")
+            }
+            if(numMatching == cardsList.length/2){
+                clearInterval(cal_time);
+                document.getElementById("timer").innerHTML ="Timer: "+minutes+"m "+seconds+ "s => Success";
+                document.getElementById("timer").style.color ="darkseagreen";
             }
         }, 1000);
         console.log(shuffled)
@@ -103,9 +111,7 @@ function match_checking(f_card,s_card){
         console.log(s_card.getAttribute("match"))
         f_card.style.color = "#2eff00";
         s_card.style.color = "#2eff00";
-        clearInterval(cal_time);
-        document.getElementById("timer").innerHTML ="Successfully disarmed"
-        document.getElementById("timer").style.backgroundColor ="darkseagreen"
+        numMatching = numMatching + 1;
     }
     else{
         lockBoard = true;
@@ -174,3 +180,4 @@ function randomSign() {
     return result;
 }
 
+console.log(cardsList)
