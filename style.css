@@ -120,18 +120,34 @@ body {
     border-radius: 20px;
     border: 5px solid #e6e6e6;
     box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
+
+    animation-name: showCard1;
+    animation-duration: 900ms;
     transition: 0.4s ease-in-out transform;
     background-color: cornsilk;
 }
 .card1:hover {
     transform: translate3d(0px, 0px, -250px) rotatex(0deg);
-    transition:.6s;
+    transition: 0.6s;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
 }
 .card1 img{
     transform: translateY(15px);
     width:360px;
     height:250px;
+}
+@keyframes showCard1 {
+    from{
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0px);
+        transition: 0.6s;
+        transform: perspective(750px) translate3d(0px, 0px, -250px) rotateX(27deg) scale(0.9, 0.9);
+        box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
+    }
 }
 .memory-game {
     width: 540px;
@@ -151,8 +167,20 @@ body {
     transform-style: preserve-3d; /* Festlegung auf 3d */
     transition: transform .5s;
     box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.5);
+    animation-name: showCard;
+    animation-duration: 900ms;
+    cursor: pointer;
 }
-
+@keyframes showCard {
+    from{
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
 .memory-card:active {
     transform: scale(0.80); /* beim Clicken wird die Karte realtiv verkleinert*/
     transition: transform .2s;/* muss gesetzt werden, damit beim Drücken der Effekt relativ funktioniert */
@@ -175,3 +203,5 @@ body {
 .front-face {
     transform: rotateY(180deg);
 }
+
+
