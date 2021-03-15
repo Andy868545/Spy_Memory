@@ -21,33 +21,47 @@ let secondClick = false;
 let startedGame = false;
 let firstCard;
 let secondCard;
-let time = 30000 * 0.6 // equals 30 seconds 0.6 is just a factor
+let time = 30000 * 0.6 // this equals 30 seconds 0.6 is just a factor
 let cal_time;
 let numMatching = 0;
+let specialCard = 1;
+    //getRandomInt(1, 3); // 1 = true 0, -1 = false
+document.getElementById("Num_Card").addEventListener("keyup", function (event) {
+    if (event.key === "Enter") {
+        document.getElementById("start_btn").click();
+    }}, false);
 
 $("#reset_btn").prop('disabled', true)
 $("#reset_btn").on('click',function(){
     $(".memory-game").empty();
-    $(".memory-game").append("<div class='card1' id='card'><img src='img/agent.png\'><h3>Who is the spy?</h3><p>Text</p></div>");
+    $(".memory-game").append("<div class='card1' id='card'><img src='img/agent.png\'><h3> Who is the spy? </h3><p>Text</p></div>");
     $("#start_btn").prop('disabled',false);
     cardsList = [];
     numMatching = 0;
     clearInterval(cal_time);
-    time = 30000;
+    time = 30000 * 0.6 ;
     document.getElementById("timer").style.color = "#ec5252";
     document.getElementById("timer").innerHTML = "";
     $("#Num_Card").val("");
     $("#reset_btn").prop('disabled', true)
 })
+
 $("#start_btn").on('click',function (){
    let inputNum = $("#Num_Card").val();
     if((inputNum!="")&&(inputNum%2 === 0)){
         $(".card1").remove();
         inputNum = inputNum/2
        for(let i=0; i < inputNum; i++){
-           let mathProblem = generateRandomMathProblem()
-           createCard(i,mathProblem+" = ");
-           createCard(i, Math.round(eval(mathProblem) * 100) / 100);
+           let mathProblem = generateRandomMathProblem();
+           if(specialCard === 1){
+               createCard(i,"img/fireO.png");
+               createCard(i, "img/fireO.png");
+               specialCard = 0;
+           }
+           else{
+               createCard(i,mathProblem);
+               createCard(i, Math.round(eval(mathProblem) * 100) / 100);
+           }
        }
         $("#Num_Card").val("");
         let shuffled = shuffle(cardsList)
@@ -59,7 +73,6 @@ $("#start_btn").on('click',function (){
             let milSec = time - Math.floor(time / 100) * 100;
             let seconds = Math.floor((time % (1000 * 60 * 60)) / (10 * 60));
             document.getElementById("timer").innerHTML ="Timer: "+seconds+"s "+milSec+ "ms "
-            console.log(time);
             if (time == 0) {
                 clearInterval(cal_time);
                 lockBoard = true;
@@ -79,11 +92,18 @@ $("#start_btn").on('click',function (){
     }
 });
 
-function createCard(idNr,content){
-    console.log(idNr)
-    let new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false'>" +
-        "<p class='front-face' style='font-weight: bold'>"+content+"</p><img class='back-face' src='img/agent.png'/></div>";
-    cardsList.push(new_card);
+function createCard(idNr, content){
+    console.log(idNr);
+    let new_card;
+    if(specialCard === 1){
+        new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false'>" +
+            "<img class='front-face' src = "+content+"/> <img class='back-face' src='img/agent.png'/></div>";
+    }
+    else{
+        new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false'>" +
+            "<p class='front-face' style='font-weight: bold'>"+content+"</p><img class='back-face' src='img/agent.png'/></div>";
+    }
+      cardsList.push(new_card);
 }
 
 function flipCard(elem){
@@ -144,8 +164,8 @@ function shuffle(inputArray) {
     return inputArray;
 }
 
-function getRandomInt(min,max){
-    let result = (Math.round(Math.random()*max)+min)
+function getRandomInt(min, max){
+    let result = (Math.floor(Math.random() * max) + min)
     if(result < 0){result = "("+result+")"} //brackets for negative numbers
     return (result)
 }
@@ -153,11 +173,11 @@ function generateRandomMathProblem(){
     let equation = "";
     let minValue = -20;
     let maxValue = 100;
-    let num = getRandomInt(0,4); // number of numbers in an equation
+    let num = getRandomInt(1, 4); // number of numbers in an equation
     for(let i = 0; i < num; i++){
-        equation = equation + getRandomInt(minValue,maxValue) + randomSign()
+        equation = equation + getRandomInt(minValue, maxValue) + randomSign()
     }
-    equation = equation + getRandomInt(minValue,maxValue)
+    equation = equation + getRandomInt(minValue, maxValue)
     return equation;
 }
 
