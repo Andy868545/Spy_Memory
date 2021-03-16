@@ -24,39 +24,39 @@ let secondCard;
 let time = 30000 * 0.6 // this equals 30 seconds 0.6 is just a factor
 let cal_time;
 let numMatching = 0;
-let specialCard = 1;
-    //getRandomInt(1, 3); // 1 = true 0, -1 = false
+let specialCard = 2
+//getRandomInt(1, 3); // 1 = true else false
+
 document.getElementById("Num_Card").addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
         document.getElementById("start_btn").click();
     }}, false);
 
-$("#reset_btn").prop('disabled', true)
+$("#reset_btn").prop('disabled', true);
 $("#reset_btn").on('click',function(){
     $(".memory-game").empty();
     $(".memory-game").append("<div class='card1' id='card'><img src='img/agent.png\'><h3> Who is the spy? </h3><p>Text</p></div>");
     $("#start_btn").prop('disabled',false);
     cardsList = [];
     numMatching = 0;
+    document.getElementById("score").innerHTML ="";
     clearInterval(cal_time);
     time = 30000 * 0.6 ;
     document.getElementById("timer").style.color = "#ec5252";
     document.getElementById("timer").innerHTML = "";
-    $("#Num_Card").val("");
+    document.getElementById("bonus").innerHTML = "";
     $("#reset_btn").prop('disabled', true)
 })
 
 $("#start_btn").on('click',function (){
    let inputNum = $("#Num_Card").val();
-    if((inputNum!="")&&(inputNum%2 === 0)){
+    if((inputNum!=="")&&(inputNum%2 === 0)){
         $(".card1").remove();
         inputNum = inputNum/2
        for(let i=0; i < inputNum; i++){
            let mathProblem = generateRandomMathProblem();
-           if(specialCard === 1){
-               createCard(i,"img/fireO.png");
-               createCard(i, "img/fireO.png");
-               specialCard = 0;
+           if((specialCard === 1) || (specialCard === 2)){
+               createSpecialCards(i);
            }
            else{
                createCard(i,mathProblem);
@@ -64,7 +64,7 @@ $("#start_btn").on('click',function (){
            }
        }
         $("#Num_Card").val("");
-        let shuffled = shuffle(cardsList)
+        let shuffled = shuffle(cardsList);
         $(".memory-game").append(shuffled);
         $("#start_btn").prop('disabled',true);
         $("#reset_btn").prop('disabled', false);
@@ -72,35 +72,48 @@ $("#start_btn").on('click',function (){
             time = time - 10;
             let milSec = time - Math.floor(time / 100) * 100;
             let seconds = Math.floor((time % (1000 * 60 * 60)) / (10 * 60));
-            document.getElementById("timer").innerHTML ="Timer: "+seconds+"s "+milSec+ "ms "
-            if (time == 0) {
+            document.getElementById("timer").innerHTML ="Timer: "+seconds+"s "+milSec+ "ms ";
+            document.getElementById("score").innerHTML ="Score: " + numMatching;
+            if (time === 0) {
                 clearInterval(cal_time);
                 lockBoard = true;
-                alert("Time Out!! the bomb exploded")
+                alert("Time Out!! the bomb exploded");
             }
-            if(numMatching === cardsList.length/2){
+            if(numMatching === cardsList.length / 2){
                 clearInterval(cal_time);
-                document.getElementById("timer").innerHTML ="Timer: "+seconds+"s "+milSec+ "ms => Success";
-                document.getElementById("timer").style.color ="darkseagreen";
+                document.getElementById("timer").innerHTML += "=> Success";
+                document.getElementById("timer").style.color = "darkseagreen";
             }
         }, 10);
-        console.log(shuffled)
-        console.log($(".memory-card").get())
+        //console.log(shuffled)
+        //console.log($(".memory-card").get())
     }
     else{
         alert("Empty Input is not valid");
     }
 });
 
+function createSpecialCards(idNr){
+    if(specialCard === 1){
+        createCard(idNr,"img/fire.png");
+        createCard(idNr, "img/fire.png");
+    }
+    if(specialCard === 2){
+        createCard(idNr,"img/clock.png");
+        createCard(idNr, "img/clock.png");
+    }
+    specialCard = 0;
+}
+
 function createCard(idNr, content){
     console.log(idNr);
     let new_card;
-    if(specialCard === 1){
-        new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false'>" +
+    if(specialCard === 1|| specialCard === 2){
+        new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false' specialCard='"+specialCard+"' special='true'>" +
             "<img class='front-face' src = "+content+"/> <img class='back-face' src='img/agent.png'/></div>";
     }
     else{
-        new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false'>" +
+        new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false' specialCard='0' special = 'false'>" +
             "<p class='front-face' style='font-weight: bold'>"+content+"</p><img class='back-face' src='img/agent.png'/></div>";
     }
       cardsList.push(new_card);
@@ -111,7 +124,7 @@ function flipCard(elem){
     if(lockBoard){return;} //locking the board --> no access
     if(elem === firstCard){return;} //avoid double click problems
     console.log("match: "+elem.getAttribute("match"))
-    if(elem.getAttribute("match") == "false"){
+    if(elem.getAttribute("match") === "false"){
         elem.classList.add('flip')
         if(!secondClick){ //first click
             secondClick = true;
@@ -124,17 +137,22 @@ function flipCard(elem){
     }
 }
 function match_checking(f_card, s_card){
-    if(f_card.id === s_card.id){
-        console.log("Match gefunden");
-        f_card.setAttribute("match","true")
-        console.log(f_card.getAttribute("match"))
-        s_card.setAttribute("match","true")
-        console.log(s_card.getAttribute("match"))
+    console.log("first "+time);
+    document.getElementById("score").innerHTML ="score: " + numMatching;
+    if(f_card.id === s_card.id){ //console.log("Match gefunden");
+        f_card.setAttribute("match","true"); //console.log(f_card.getAttribute("match"));
+        s_card.setAttribute("match","true"); //console.log(s_card.getAttribute("match"));
         f_card.style.color = "#2eff00";
         s_card.style.color = "#2eff00";
         f_card.style.cursor= "default";
         s_card.style.cursor= "default";
         numMatching = numMatching + 1;
+        if((f_card.getAttribute("specialCard") === "2") && (f_card.getAttribute("special") === "true")){
+            time = time + 10000;
+            console.log("time: "+time);
+            //zeigt nicht an und clockcard werden mehrmals erzeugt
+            document.getElementById("bonus").innerHTML = "| +10 seconds";
+        }
     }
     else{
         lockBoard = true;
@@ -144,8 +162,8 @@ function match_checking(f_card, s_card){
             f_card.classList.remove('flip')
             s_card.classList.remove('flip')
             lockBoard = false;
-            console.log(f_card.getAttribute("match"))
-            console.log(s_card.getAttribute("match"))
+            //console.log(f_card.getAttribute("match"))
+            //console.log(s_card.getAttribute("match"))
         },1000)
     }
 }
