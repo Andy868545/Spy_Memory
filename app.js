@@ -36,7 +36,10 @@ document.getElementById("Num_Card").addEventListener("keyup", function (event) {
 $("#reset_btn").prop('disabled', true);
 $("#reset_btn").on('click',function(){
     $(".memory-game").empty();
-    $(".memory-game").append("<div class='card1' id='card'><img src='img/agent.png\'><h3> Who is the spy? </h3><p>Text</p></div>");
+    $(".memory-game").append("<div class='card1' id='card'><img src='img/agent.png\'><h3> Who is the spy? </h3><p class=\"introText\">Hello Agent solve the memory puzzle immediately otherwise the bomb will explode.\n" +
+        "                You only have 45 seconds to solve it. Watch out with those special cards... <br> Hint fire => -20seconds\n" +
+        "                <br> Clock => +10 seconds. Accordingly be careful with the timing when you solve the special cards.\n" +
+        "            </p></div>");
     $("#start_btn").prop('disabled',false);
     cardsList = [];
     numMatching = 0;
@@ -53,7 +56,7 @@ $("#reset_btn").on('click',function(){
 
 $("#start_btn").on('click',function (){
    let inputNum = $("#Num_Card").val();
-    if((inputNum!=="")&&(inputNum%2 === 0)){
+    if((inputNum!=="")&&(inputNum%2 === 0)&&(inputNum >= 6)){
         $(".card1").remove();
         inputNum = inputNum / 2;
        for(let i=0; i < inputNum; i++){
@@ -75,7 +78,7 @@ $("#start_btn").on('click',function (){
             time = time - 10;
             let milSec = time - Math.floor(time / 100) * 100;
             let seconds = Math.floor((time % (1000 * 60 * 60)) / (10 * 60));
-            document.getElementById("timer").innerHTML ="Timer: "+seconds+"s, "+milSec;
+            document.getElementById("timer").innerHTML ="Timer: "+seconds+"s , "+milSec;
             document.getElementById("score").innerHTML ="Score: " + numMatching;
             if (time <= 0) {
                 clearInterval(cal_time);
@@ -92,7 +95,7 @@ $("#start_btn").on('click',function (){
         //console.log($(".memory-card").get())
     }
     else{
-        alert("Empty Input is not valid");
+        alert("Input is invalid");
     }
 });
 
