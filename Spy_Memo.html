@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'"/>
     <link rel="preconnect" href="https://fonts.gstatic.com"/>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Poppins:wght@300&display=swap" rel="stylesheet"/>
     <title>The Spy Game</title>
@@ -28,7 +28,7 @@
     </nav>
     <div id="entering">
         <h2>Select the number of Cards</h2>
-        <input class="rounded" type="number" min="2" id="Num_Card" step="2" />
+        <input class="rounded" type="number" min="6" max="30" id="Num_Card" step="2" value="6" placeholder="e.g. 6"/>
         <input class="rounded" type="submit" style="cursor: pointer" id="start_btn" value="Game Start"/>
         <input class="rounded" type="submit" style="cursor: pointer" id="reset_btn" value="reset"/>
         <p style="display: flex">
@@ -43,7 +43,10 @@
         <div class="card1" id="card">
             <img src="img/agent.png" alt="">
             <h3>Who is the spy?</h3>
-            <p class="introText">Text...Memory Game.... </p>
+            <p class="introText">Hello Agent solve the memory puzzle immediately otherwise the bomb will explode.
+                You only have 30 seconds to solve it. Watch out with those special cards... Hint fire => -20seconds
+                clock => +10 seconds. Accordingly be careful with the timing when you solve the special cards.
+            </p>
         </div>
     </section>
     <script src="app.js" async></script>

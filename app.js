@@ -21,10 +21,11 @@ let secondClick = false;
 let startedGame = false;
 let firstCard;
 let secondCard;
-let time = 30000 * 0.6 // this equals 30 seconds 0.6 is just a factor
+let input_time = 30; //30s
+let time = input_time * 1000 * 0.6 // this equals 30 seconds 0.6 is just a factor
 let cal_time;
 let numMatching = 0;
-let specialCard = 2
+let specialCard = 1;
 //getRandomInt(1, 3); // 1 = true else false
 
 document.getElementById("Num_Card").addEventListener("keyup", function (event) {
@@ -39,20 +40,22 @@ $("#reset_btn").on('click',function(){
     $("#start_btn").prop('disabled',false);
     cardsList = [];
     numMatching = 0;
-    document.getElementById("score").innerHTML ="";
     clearInterval(cal_time);
-    time = 30000 * 0.6 ;
+    time = input_time *1000 * 0.6 ;
+    document.getElementById("score").innerHTML ="";
     document.getElementById("timer").style.color = "#ec5252";
     document.getElementById("timer").innerHTML = "";
     document.getElementById("bonus").innerHTML = "";
-    $("#reset_btn").prop('disabled', true)
+    $("#reset_btn").prop('disabled', true);
+    specialCard = 1;
+    lockBoard = false;
 })
 
 $("#start_btn").on('click',function (){
    let inputNum = $("#Num_Card").val();
     if((inputNum!=="")&&(inputNum%2 === 0)){
         $(".card1").remove();
-        inputNum = inputNum/2
+        inputNum = inputNum / 2;
        for(let i=0; i < inputNum; i++){
            let mathProblem = generateRandomMathProblem();
            if((specialCard === 1) || (specialCard === 2)){
@@ -72,12 +75,12 @@ $("#start_btn").on('click',function (){
             time = time - 10;
             let milSec = time - Math.floor(time / 100) * 100;
             let seconds = Math.floor((time % (1000 * 60 * 60)) / (10 * 60));
-            document.getElementById("timer").innerHTML ="Timer: "+seconds+"s "+milSec+ "ms ";
+            document.getElementById("timer").innerHTML ="Timer: "+seconds+"s, "+milSec;
             document.getElementById("score").innerHTML ="Score: " + numMatching;
-            if (time === 0) {
+            if (time <= 0) {
                 clearInterval(cal_time);
                 lockBoard = true;
-                alert("Time Out!! the bomb exploded");
+                alert("Time Out!! the bomb exploded, Game Over");
             }
             if(numMatching === cardsList.length / 2){
                 clearInterval(cal_time);
@@ -102,7 +105,7 @@ function createSpecialCards(idNr){
         createCard(idNr,"img/clock.png");
         createCard(idNr, "img/clock.png");
     }
-    specialCard = 0;
+    specialCard += 1;
 }
 
 function createCard(idNr, content){
@@ -137,7 +140,7 @@ function flipCard(elem){
     }
 }
 function match_checking(f_card, s_card){
-    console.log("first "+time);
+    console.log("first "+ time);
     document.getElementById("score").innerHTML ="score: " + numMatching;
     if(f_card.id === s_card.id){ //console.log("Match gefunden");
         f_card.setAttribute("match","true"); //console.log(f_card.getAttribute("match"));
@@ -148,10 +151,18 @@ function match_checking(f_card, s_card){
         s_card.style.cursor= "default";
         numMatching = numMatching + 1;
         if((f_card.getAttribute("specialCard") === "2") && (f_card.getAttribute("special") === "true")){
-            time = time + 10000;
+            time += 10000 * 0.6;
             console.log("time: "+time);
             //zeigt nicht an und clockcard werden mehrmals erzeugt
+            document.getElementById("bonus").style.color = "darkseagreen";
             document.getElementById("bonus").innerHTML = "| +10 seconds";
+        }
+        if((f_card.getAttribute("specialCard") === "1") && (f_card.getAttribute("special") === "true")){
+            time -= 20000 * 0.6;
+            console.log("time: "+time);
+            //zeigt nicht an und clockcard werden mehrmals erzeugt
+            document.getElementById("bonus").style.color = "#ec5252";
+            document.getElementById("bonus").innerHTML = "| -20 seconds";
         }
     }
     else{
@@ -216,7 +227,7 @@ function randomSign() {
             result = " / ";
             break;
         default:
-            console.log("");
+            break;
     }
     return result;
 }

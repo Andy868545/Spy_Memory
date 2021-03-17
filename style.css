@@ -2,6 +2,7 @@
 .rounded{
     border-radius: 10px;
     font-size: 19px;
+    background-color: cornsilk;
 }
 h2{
     font-family: 'Montserrat', sans-serif;
@@ -156,7 +157,7 @@ body {
     }
 }
 .memory-game {
-    width: 540px;
+    width: 650px;
     height: 540px;
     margin: auto;
     display: flex;
@@ -179,7 +180,6 @@ body {
 }
 #bonus{
     transition: transform .5s;
-    box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.5);
     animation-name: showCard;
     animation-duration: 2s;
 }
