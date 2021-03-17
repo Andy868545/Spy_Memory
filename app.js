@@ -116,7 +116,7 @@ function createCard(idNr, content){
     let new_card;
     if(specialCard === 1|| specialCard === 2){
         new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false' specialCard='"+specialCard+"' special='true'>" +
-            "<img class='front-face' src = "+content+"/> <img class='back-face' src='img/agent.png'/></div>";
+            "<img class='front-face' src = '"+content+"'/> <img class='back-face' src='img/agent.png'/></div>";
     }
     else{
         new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false' specialCard='0' special = 'false'>" +
