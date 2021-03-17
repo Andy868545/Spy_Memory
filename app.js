@@ -21,7 +21,7 @@ let secondClick = false;
 let startedGame = false;
 let firstCard;
 let secondCard;
-let input_time = 30; //30s
+let input_time = 45; //45s
 let time = input_time * 1000 * 0.6 // this equals 30 seconds 0.6 is just a factor
 let cal_time;
 let numMatching = 0;
