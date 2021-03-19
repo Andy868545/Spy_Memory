@@ -1,7 +1,7 @@
 const navSlide=()=>{
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav-links');
-    const navLinks=document.querySelectorAll('.nav-links li')
+    const navLinks=document.querySelectorAll('.nav-links li');
     burger.addEventListener('click',()=>{
         nav.classList.toggle('nav-active');
         navLinks.forEach((link, index)=>{
@@ -28,8 +28,8 @@ let numMatching = 0;
 let specialCard = 1;
 //getRandomInt(1, 3); // 1 = true else false
 
-document.getElementById("Num_Card").addEventListener("keyup", function (event) {
-    if (event.key === "Enter") {
+document.getElementById("Num_Card").addEventListener("keyup", function (event){
+    if (event.key === "Enter"){
         document.getElementById("start_btn").click();
     }}, false);
 
@@ -37,7 +37,7 @@ $("#reset_btn").prop('disabled', true);
 $("#reset_btn").on('click',function(){
     $(".memory-game").empty();
     $(".memory-game").append("<div class='card1' id='card'><img src='img/agent.png\'><h3> Who is the spy? </h3><p class=\"introText\">Hello Agent solve the memory puzzle immediately otherwise the bomb will explode.\n" +
-        "                You only have 45 seconds to solve it. Watch out with those special cards... <br> Hint fire => -20seconds\n" +
+        "                You only have 45 seconds to solve it. Watch out with those special cards... <br> Hint: fire => -20seconds\n" +
         "                <br> Clock => +10 seconds. Accordingly be careful with the timing when you solve the special cards.\n" +
         "            </p></div>");
     $("#start_btn").prop('disabled',false);
@@ -54,7 +54,7 @@ $("#reset_btn").on('click',function(){
     lockBoard = false;
 })
 
-$("#start_btn").on('click',function (){
+$("#start_btn").on('click',function(){
    let inputNum = $("#Num_Card").val();
     if((inputNum!=="")&&(inputNum%2 === 0)&&(inputNum >= 6)){
         $(".card1").remove();
@@ -74,13 +74,13 @@ $("#start_btn").on('click',function (){
         $(".memory-game").append(shuffled);
         $("#start_btn").prop('disabled',true);
         $("#reset_btn").prop('disabled', false);
-        cal_time = setInterval(function() {
+        cal_time = setInterval(function(){
             time = time - 10;
             let milSec = time - Math.floor(time / 100) * 100;
             let seconds = Math.floor((time % (1000 * 60 * 60)) / (10 * 60));
             document.getElementById("timer").innerHTML ="Timer: "+seconds+"s , "+milSec;
-            document.getElementById("score").innerHTML ="Score: " + numMatching;
-            if (time <= 0) {
+            document.getElementById("score").innerHTML ="Match found: " + numMatching;
+            if (time <= 0){
                 clearInterval(cal_time);
                 lockBoard = true;
                 alert("Time Out!! the bomb exploded, Game Over");
@@ -112,7 +112,7 @@ function createSpecialCards(idNr){
 }
 
 function createCard(idNr, content){
-    console.log(idNr);
+    //console.log(idNr);
     let new_card;
     if(specialCard === 1|| specialCard === 2){
         new_card = "<div class='memory-card' id='"+idNr+"' onclick='flipCard(this)' match='false' specialCard='"+specialCard+"' special='true'>" +
@@ -126,10 +126,9 @@ function createCard(idNr, content){
 }
 
 function flipCard(elem){
-    console.log(elem)
+    //console.log(elem)
     if(lockBoard){return;} //locking the board --> no access
     if(elem === firstCard){return;} //avoid double click problems
-    console.log("match: "+elem.getAttribute("match"))
     if(elem.getAttribute("match") === "false"){
         elem.classList.add('flip')
         if(!secondClick){ //first click
@@ -143,8 +142,6 @@ function flipCard(elem){
     }
 }
 function match_checking(f_card, s_card){
-    console.log("first "+ time);
-    document.getElementById("score").innerHTML ="score: " + numMatching;
     if(f_card.id === s_card.id){ //console.log("Match gefunden");
         f_card.setAttribute("match","true"); //console.log(f_card.getAttribute("match"));
         s_card.setAttribute("match","true"); //console.log(s_card.getAttribute("match"));
@@ -155,14 +152,12 @@ function match_checking(f_card, s_card){
         numMatching = numMatching + 1;
         if((f_card.getAttribute("specialCard") === "2") && (f_card.getAttribute("special") === "true")){
             time += 10000 * 0.6;
-            console.log("time: "+time);
             //zeigt nicht an und clockcard werden mehrmals erzeugt
             document.getElementById("bonus").style.color = "darkseagreen";
             document.getElementById("bonus").innerHTML = "| +10 seconds";
         }
         if((f_card.getAttribute("specialCard") === "1") && (f_card.getAttribute("special") === "true")){
             time -= 20000 * 0.6;
-            console.log("time: "+time);
             //zeigt nicht an und clockcard werden mehrmals erzeugt
             document.getElementById("bonus").style.color = "#ec5252";
             document.getElementById("bonus").innerHTML = "| -20 seconds";
@@ -173,18 +168,18 @@ function match_checking(f_card, s_card){
         firstCard = null;
         setTimeout(()=>{
             console.log("Kein Match");
-            f_card.classList.remove('flip')
-            s_card.classList.remove('flip')
+            f_card.classList.remove('flip');
+            s_card.classList.remove('flip');
             lockBoard = false;
             //console.log(f_card.getAttribute("match"))
             //console.log(s_card.getAttribute("match"))
-        },1000)
+        },1000);
     }
 }
-function shuffle(inputArray) {
+function shuffle(inputArray){
     let currentIndex = inputArray.length, temporaryValue, randomIndex;
     // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
+    while (0 !== currentIndex){
         // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -197,9 +192,9 @@ function shuffle(inputArray) {
 }
 
 function getRandomInt(min, max){
-    let result = (Math.floor(Math.random() * max) + min)
+    let result = (Math.floor(Math.random() * max) + min);
     if(result < 0){result = "("+result+")"} //brackets for negative numbers
-    return (result)
+    return (result);
 }
 function generateRandomMathProblem(){
     let equation = "";
@@ -209,11 +204,11 @@ function generateRandomMathProblem(){
     for(let i = 0; i < num; i++){
         equation = equation + getRandomInt(minValue, maxValue) + randomSign()
     }
-    equation = equation + getRandomInt(minValue, maxValue)
+    equation = equation + getRandomInt(minValue, maxValue);
     return equation;
 }
 
-function randomSign() {
+function randomSign(){
     let signNum = getRandomInt(0, 3);
     let result = "";
     switch (signNum) {
